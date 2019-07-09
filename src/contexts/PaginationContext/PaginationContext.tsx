@@ -3,14 +3,14 @@ import React, { createContext, useState } from 'react';
 import { connect } from 'react-redux';
 import { IPaginationContext, IStore } from '../../interfaces';
 
-const Context = createContext<IPaginationContext>({
+export const Context = createContext<IPaginationContext>({
   currentPage: 1,
   totalPage: 1,
   nextPage: _.noop,
   lastPage: _.noop,
 });
 
-const CustomProvider = ({
+export const CustomProvider = ({
   totalPage,
   children,
 }: {
@@ -26,7 +26,7 @@ const CustomProvider = ({
 
   const lastPage = () => {
     const last = state - 1;
-    setState(last < 0 ? 0 : last);
+    setState(last < 1 ? 1 : last);
   };
 
   return (

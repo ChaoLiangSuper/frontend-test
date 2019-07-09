@@ -2,44 +2,49 @@ import _ from 'lodash';
 import { all, call, put, select } from 'redux-saga/effects';
 import * as api from '../api';
 import { cardsPerPage } from '../config';
-import { IFetchPage, IStore } from '../interfaces';
+import { IAction, IStore } from '../interfaces';
 import { getCacheablePages, maxCacheablePages } from '../utils';
 import { ADD_PAGE, REMOVE_PAGE, UPDATE_TOTAL_PAGE } from './constants';
 
 const getCachedPageIndex = ({ pages }: IStore) => Object.keys(pages);
 const getTotalPage = ({ totalPage }: IStore) => totalPage;
 
-function* cachePage(currentPage: number) {
-  const cachedPageIndex = yield select(getCachedPageIndex);
+export function* cachePage(currentPage: number) {
+  try {
+    const cachedPageIndex = yield select(getCachedPageIndex);
 
-  if (_.includes(cachedPageIndex, String(currentPage))) {
-    return;
-  }
+    if (_.includes(cachedPageIndex, String(currentPage))) {
+      return;
+    }
 
-  const { data, headers } = yield call(api.fetchPage, currentPage);
-  const totalPage = yield select(getTotalPage);
-  const newTotalPage = _.ceil(headers['x-total-count'] / cardsPerPage);
-  if (totalPage !== newTotalPage) {
+    const { data, headers } = yield call(api.fetchPage, currentPage);
+    const totalPage = yield select(getTotalPage);
+    const newTotalPage = _.ceil(headers['x-total-count'] / cardsPerPage);
+    if (totalPage !== newTotalPage) {
+      yield put({
+        type: UPDATE_TOTAL_PAGE,
+        totalPage: newTotalPage,
+      });
+    }
+
     yield put({
-      type: UPDATE_TOTAL_PAGE,
-      totalPage: newTotalPage,
+      type: ADD_PAGE,
+      value: data,
+      index: currentPage,
     });
+  } catch (error) {
+    // tslint:disable-next-line
+    console.log(error);
   }
-
-  yield put({
-    type: ADD_PAGE,
-    value: data,
-    index: currentPage,
-  });
 }
 
-function* cacheOtherPages(currentPage: number) {
+export function* cacheOtherPages(currentPage: number) {
   const totalPage = yield select(getTotalPage);
   const cacheablePages = getCacheablePages(currentPage, totalPage);
   yield all(_.map(cacheablePages, (page) => cachePage(page)));
 }
 
-function* removeOldPage(currentPage: number) {
+export function* removeOldPage(currentPage: number) {
   let cachedPageIndex = yield select(getCachedPageIndex);
   const oversize = cachedPageIndex.length - (maxCacheablePages + 1);
   if (oversize > 0) {
@@ -59,7 +64,8 @@ function* removeOldPage(currentPage: number) {
   }
 }
 
-export function* pageFetchWorker({ currentPage }: IFetchPage) {
-  yield all([cachePage(currentPage), cacheOtherPages(currentPage)]);
-  yield removeOldPage(currentPage);
+export function* pageFetchWorker({ currentPage }: IAction) {
+  yield call(cachePage, currentPage);
+  yield call(cacheOtherPages, currentPage);
+  yield call(removeOldPage, currentPage);
 }

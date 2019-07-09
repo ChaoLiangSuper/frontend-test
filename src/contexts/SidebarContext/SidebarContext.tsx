@@ -6,17 +6,13 @@ import {
   ToggleSidebarFunc,
 } from '../../interfaces';
 
-const Context = createContext<ISidebarContext>({
+export const Context = createContext<ISidebarContext>({
   isOpen: false,
   cardData: null,
   toggleSidebar: _.noop,
 });
 
-export const SidebarProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const CustomProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, setState] = useState<ICardData | null>(null);
 
   const toggleSidebar: ToggleSidebarFunc = (cardData) => {
@@ -31,5 +27,7 @@ export const SidebarProvider = ({
     </Context.Provider>
   );
 };
+
+export const SidebarProvider = CustomProvider;
 
 export const SidebarConsumer = Context.Consumer;

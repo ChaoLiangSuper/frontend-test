@@ -12,18 +12,8 @@ import { SidebarConsumer } from '../../contexts/SidebarContext';
 import { ICardData } from '../../interfaces';
 import useStyle from './style';
 
-const DataCard = ({
-  cardData,
-  empty,
-}: {
-  cardData?: ICardData;
-  empty?: boolean;
-}) => {
+const DataCard = ({ cardData }: { cardData: ICardData }) => {
   const classes = useStyle();
-  if (empty) {
-    return <div className={classes.card} />;
-  }
-
   const { coreData } = cardData!;
 
   return (

@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export default makeStyles({
+export default makeStyles(() => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -9,4 +9,4 @@ export default makeStyles({
     minHeight: '80vh',
     position: 'relative',
   },
-});
+}));

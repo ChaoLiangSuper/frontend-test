@@ -32,25 +32,9 @@ export interface IPaginationContext {
   lastPage: () => void;
 }
 
-export interface IBaseAction {
+export interface IAction {
   type: string;
-}
-
-export interface IAddPageAction extends IBaseAction {
-  value: ICardData[];
-  index: number;
-}
-
-export interface IRemoveAction extends IBaseAction {
-  index: number;
-}
-
-export interface IUpdateTotalPage extends IBaseAction {
-  totalPage: number;
-}
-
-export interface IFetchPage extends IBaseAction {
-  currentPage: number;
+  [s: string]: any;
 }
 
 export interface IStore {

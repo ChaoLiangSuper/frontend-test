@@ -4,16 +4,16 @@ import { connect } from 'react-redux';
 import { cardsPerPage } from '../../config';
 import { ICardData, IStore } from '../../interfaces';
 import { PAGE_FETCH } from '../../store/constants';
-import Card from '../Card';
+import Card, { EmptyCard } from '../Card';
 import Loading from '../Loading';
 import useStyle from './style';
 
-const CardArea = ({
+export const CardArea = ({
   cards,
   getPageData,
   currentPage,
 }: {
-  cards: ICardData[];
+  cards?: ICardData[];
   getPageData: (n: number) => void;
   currentPage: number;
 }) => {
@@ -35,7 +35,7 @@ const CardArea = ({
           {cards.length === cardsPerPage
             ? null
             : _.map(Array(cardsPerPage - cards.length), (value, key) => (
-                <Card empty key={key} />
+                <EmptyCard key={key} />
               ))}
         </>
       )}
@@ -48,7 +48,9 @@ export default connect(
     cards: pages[currentPage],
   }),
   (dispatch) => ({
-    getPageData: (currentPage: number) =>
-      dispatch({ type: PAGE_FETCH, currentPage }),
+    getPageData: _.debounce(
+      (currentPage: number) => dispatch({ type: PAGE_FETCH, currentPage }),
+      500
+    ),
   })
 )(CardArea);

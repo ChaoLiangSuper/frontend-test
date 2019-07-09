@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardArea /> component should render loading if cards are unavailable 1`] = `
+<div
+  className="makeStyles-container-1"
+>
+  <Loading />
+</div>
+`;
+
+exports[`<CardArea /> component should successfully render without crash 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(CardArea)
+    currentPage={1}
+  >
+    <CardArea
+      currentPage={1}
+      getPageData={[Function]}
+    >
+      <div
+        className="makeStyles-container-1"
+      >
+        <Loading>
+          <div
+            className="makeStyles-background-2"
+          >
+            <WithStyles(ForwardRef(CircularProgress))>
+              <ForwardRef(CircularProgress)
+                classes={
+                  Object {
+                    "circle": "MuiCircularProgress-circle",
+                    "circleDisableShrink": "MuiCircularProgress-circleDisableShrink",
+                    "circleIndeterminate": "MuiCircularProgress-circleIndeterminate",
+                    "circleStatic": "MuiCircularProgress-circleStatic",
+                    "colorPrimary": "MuiCircularProgress-colorPrimary",
+                    "colorSecondary": "MuiCircularProgress-colorSecondary",
+                    "indeterminate": "MuiCircularProgress-indeterminate",
+                    "root": "MuiCircularProgress-root",
+                    "static": "MuiCircularProgress-static",
+                    "svg": "MuiCircularProgress-svg",
+                  }
+                }
+              >
+                <div
+                  className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                  role="progressbar"
+                  style={
+                    Object {
+                      "height": 40,
+                      "width": 40,
+                    }
+                  }
+                >
+                  <svg
+                    className="MuiCircularProgress-svg"
+                    viewBox="22 22 44 44"
+                  >
+                    <circle
+                      className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                      cx={44}
+                      cy={44}
+                      fill="none"
+                      r={20.2}
+                      strokeWidth={3.6}
+                      style={Object {}}
+                    />
+                  </svg>
+                </div>
+              </ForwardRef(CircularProgress)>
+            </WithStyles(ForwardRef(CircularProgress))>
+          </div>
+        </Loading>
+      </div>
+    </CardArea>
+  </Connect(CardArea)>
+</Provider>
+`;

@@ -1,20 +1,12 @@
-import {
-  IAddPageAction,
-  IRemoveAction,
-  IStore,
-  IUpdateTotalPage,
-} from '../interfaces';
+import { IAction, IStore } from '../interfaces';
 import { ADD_PAGE, REMOVE_PAGE, UPDATE_TOTAL_PAGE } from './constants';
 
-const initialState: IStore = {
-  totalPage: 10,
+export const initialState: IStore = {
+  totalPage: 0,
   pages: {},
 };
 
-export default (
-  state = initialState,
-  action: IAddPageAction & IRemoveAction & IUpdateTotalPage
-) => {
+export default (state = initialState, action: IAction) => {
   switch (action.type) {
     case ADD_PAGE:
       return {

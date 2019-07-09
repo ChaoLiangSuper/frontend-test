@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PaginationContext /> component should successfully render without crash 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(CustomProvider)>
+    <CustomProvider
+      dispatch={[Function]}
+      totalPage={0}
+    />
+  </Connect(CustomProvider)>
+</Provider>
+`;
