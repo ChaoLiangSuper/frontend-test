@@ -1,68 +1,34 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Frontend-test
 
-## Available Scripts
+### Install Dependency 
+`yarn`
 
-In the project directory, you can run:
+### Run On Local 
+`yarn start`
 
-### `npm start`
+### Run Test
+`yarn test`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Run Coverage
+`yarn coverage`
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Build app & docker image
+`yarn build`
 
-### `npm test`
+### App Workflow
+![frontend-test](https://user-images.githubusercontent.com/15777593/60911429-7748e100-a2c6-11e9-98e4-d1038c482381.jpg)
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Caching Algorithm
+The max size for caching is 8 ahead, so it will be 4 pages behind current page and 4 pages ahead.
+Initially, when app starts, it will fetch current page (1) and 4 pages ahead [2, 3, 4, 5]
+![frontend-test2](https://user-images.githubusercontent.com/15777593/60911586-de669580-a2c6-11e9-8eb4-62639f9738d9.jpg)
 
-### `npm run build`
+When current page changes, which means user clicked 'next' or 'back', this app will fetch the new page and store it.
+![frontend-test3](https://user-images.githubusercontent.com/15777593/60911589-e1fa1c80-a2c6-11e9-9d43-77c17d578cab.jpg)
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+App uses debounce function to minimize the number of api call. 
+If a user changes page too frenquent, app will try to fetch data with latest positon and neighbors around it.
+![frontend-test4](https://user-images.githubusercontent.com/15777593/60911716-24bbf480-a2c7-11e9-9d5a-0a60d266f5c2.jpg)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+When cache reaches max size, adding new page will trigger a function to remove the oldest page. The oldest page is calculated based on which page is the farthest from the current page.
+![frontend-test5](https://user-images.githubusercontent.com/15777593/60911969-aa3fa480-a2c7-11e9-958a-9cdb81056794.jpg)
